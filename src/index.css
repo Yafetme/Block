@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Super Sans VF", system-ui, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  /* Colors */
+  --color-mysteria-purple: #1b1938;
+  --color-lavender-glow: #cbb7fb;
+  --color-charcoal-ink: #292827;
+  --color-amethyst-link: #714cb6;
+  --color-warm-cream: #e9e5dd;
+  --color-parchment-border: #dcd7d3;
+  --color-pure-white: #ffffff;
+  
+  --color-translucent-white-95: rgba(255, 255, 255, 0.95);
+  --color-translucent-white-80: rgba(255, 255, 255, 0.8);
+
+  /* Backgrounds */
+  --color-background: #ffffff;
+  --color-on-background: #292827;
+  
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #ffffff;
+  --color-surface-container: #ffffff;
+  --color-on-surface-variant: #6b6b6b;
+  --color-secondary: #cbb7fb;
+
+  /* Typography System */
+  --font-weight-sh-base: 460;
+  --font-weight-sh-display: 540;
+  --font-weight-sh-semi: 600;
+  --font-weight-sh-bold: 700;
+
+  --line-height-sh-display: 0.96;
+  --line-height-sh-body: 1.5;
+
+  /* Font Sizes according to Superhuman spec */
+  --font-size-display-hero: 64px;
+  --font-size-section-display: 48px;
+  --font-size-feature-title: 28px;
+  --font-size-sub-heading-lg: 26px;
+  --font-size-card-heading: 22px;
+  --font-size-body-heading: 20px;
+  --font-size-body-emphasis: 18px;
+  --font-size-body-standard: 16px;
+  --font-size-nav-link: 16px;
+  --font-size-caption-label: 14px;
+  --font-size-micro-label: 12px;
+
+  /* Spacing System */
+  --spacing-section-gap-lg: 80px;
+  --spacing-section-gap-md: 48px;
+  --spacing-card-padding: 32px;
+
+  /* Animations for Gradient */
+  --animate-first: moveVertical 30s ease infinite;
+  --animate-second: moveInCircle 20s reverse infinite;
+  --animate-third: moveInCircle 40s linear infinite;
+  --animate-fourth: moveHorizontal 40s ease infinite;
+  --animate-fifth: moveInCircle 20s ease infinite;
+}
+
+@keyframes moveHorizontal {
+  0% { transform: translateX(-50%) translateY(-10%); }
+  50% { transform: translateX(50%) translateY(10%); }
+  100% { transform: translateX(-50%) translateY(-10%); }
+}
+
+@keyframes moveInCircle {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes moveVertical {
+  0% { transform: translateY(-50%); }
+  50% { transform: translateY(50%); }
+  100% { transform: translateY(-50%); }
+}
+
+.bm-architecture {
+  offset-anchor: 10px 0px;
+  animation: bm-animation-path;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.75, -0.01, 0, 0.99);
+}
+
+.bm-line-1 {
+  offset-path: path("M 10 20 h 79.5 q 5 0 5 5 v 30");
+  animation-duration: 5s;
+  animation-delay: 1s;
+}
+
+.bm-line-2 {
+  offset-path: path("M 180 10 h -69.7 q -5 0 -5 5 v 40");
+  animation-delay: 6s;
+  animation-duration: 2s;
+}
+
+.bm-line-3 {
+  offset-path: path("M 130 20 v 21.8 q 0 5 -5 5 h -25");
+  animation-delay: 4s;
+  animation-duration: 6s;
+}
+
+.bm-line-4 {
+  offset-path: path("M 170 80 v -21.8 q 0 -5 -5 -5 h -65");
+  animation-delay: 3s;
+  animation-duration: 3s;
+}
+
+.bm-line-5 {
+  offset-path: path(
+    "M 135 65 h 15 q 5 0 5 5 v 10 q 0 5 -5 5 h -39.8 q -5 0 -5 -5 v -35"
+  );
+  animation-delay: 9s;
+  animation-duration: 4s;
+}
+
+.bm-line-6 {
+  offset-path: path("M 94.8 95 v -46");
+  animation-delay: 3s;
+  animation-duration: 7s;
+}
+
+.bm-line-7 {
+  offset-path: path(
+    "M 88 88 v -15 q 0 -5 -5 -5 h -10 q -5 0 -5 -5 v -5 q 0 -5 5 -5 h 28"
+  );
+  animation-delay: 4s;
+  animation-duration: 4s;
+}
+
+.bm-line-8 {
+  offset-path: path("M 30 30 h 25 q 5 0 5 5 v 6.5 q 0 5 5 5 h 35");
+  animation-delay: 3s;
+  animation-duration: 3s;
+}
+
+@keyframes bm-animation-path {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@layer base {
+  body {
+    font-weight: 460;
+    line-height: 1.5;
+  }
+}
+
