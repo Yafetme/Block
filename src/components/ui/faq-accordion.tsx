@@ -4,6 +4,7 @@ import * as React from 'react';
 import { HelpCircle, MessageCircle, ChevronDown } from 'lucide-react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { cn } from "../../lib/utils";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const CustomAccordion = AccordionPrimitive.Root;
 
@@ -110,26 +111,27 @@ const faqs = [
 ];
 
 export function AccordionComponent() {
+	const { t } = useLanguage();
 	return (
 		<section className="py-20 md:py-32 w-full p-4 flex flex-col items-center justify-center md:p-8 bg-surface-container-lowest border-t border-parchment-border">
 			<div className="max-w-[800px] w-full mx-auto">
 				<h2 className="mb-4 text-center font-semibold text-charcoal-ink" style={{ fontSize: "40px", lineHeight: 0.96, letterSpacing: "-1px" }}>
-					Frequently Asked Questions
+					{t('faq.title')}
 				</h2>
-        <p className="text-center text-charcoal-ink/70 mb-12" style={{ fontSize: "20px" }}>Got questions? We've got answers about Block Matrix.</p>
+        <p className="text-center text-charcoal-ink/70 mb-12" style={{ fontSize: "20px" }}>{t('faq.subtitle')}</p>
 				<CustomAccordion
 					type="single"
 					collapsible
-					defaultValue="item-0"
+					defaultValue="item-1"
 					className="space-y-6"
 				>
-					{faqs.map((faq, index) => (
+					{[1, 2, 3, 4, 5].map((index) => (
 						<CustomAccordionItem
 							key={index}
 							value={`item-${index}`}
 						>
-							<CustomAccordionTrigger>{faq.question}</CustomAccordionTrigger>
-							<CustomAccordionContent>{faq.answer}</CustomAccordionContent>
+							<CustomAccordionTrigger>{t(`faq.q${index}`)}</CustomAccordionTrigger>
+							<CustomAccordionContent>{t(`faq.a${index}`)}</CustomAccordionContent>
 						</CustomAccordionItem>
 					))}
 				</CustomAccordion>

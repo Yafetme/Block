@@ -6,9 +6,11 @@ import { BmArchitecture } from "../components/ui/bm-architecture";
 import { AccordionComponent } from "../components/ui/faq-accordion";
 import { PlatformFeatures } from "../components/ui/matrix-features";
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <div className="bg-background text-on-background font-sans overflow-x-hidden min-h-screen">
@@ -28,19 +30,24 @@ export default function Home() {
             </div>
           </div>
           <nav className="hidden lg:flex lg:gap-6 xl:gap-8 items-center flex-1">
-            <a className="text-charcoal-ink hover:text-amethyst-link transition-colors whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }} href="#">Network</a>
-            <a className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} href="#">Rewards</a>
-            <a className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} href="#">Governance</a>
-            <a className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} href="#">Transparency</a>
-            <Link className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} to="/system/flow">System Flow</Link>
+            <a className="text-charcoal-ink hover:text-amethyst-link transition-colors whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }} href="#">{t('nav.network')}</a>
+            <a className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} href="#">{t('nav.rewards')}</a>
+            <a className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} href="#">{t('nav.governance')}</a>
+            <a className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} href="#">{t('nav.transparency')}</a>
+            <Link className="text-charcoal-ink/80 hover:text-charcoal-ink transition-colors whitespace-nowrap" style={{ fontWeight: 460, fontSize: "16px" }} to="/system/flow">{t('nav.systemFlow')}</Link>
           </nav>
           <div className="hidden lg:flex items-center gap-4 xl:gap-6 shrink-0">
-            <select className="bg-transparent text-charcoal-ink/80 hover:text-charcoal-ink transition-colors outline-none cursor-pointer" style={{ fontWeight: 600, fontSize: "14px" }}>
+            <select 
+              className="bg-transparent text-charcoal-ink/80 hover:text-charcoal-ink transition-colors outline-none cursor-pointer" 
+              style={{ fontWeight: 600, fontSize: "14px" }}
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as 'en' | 'zh')}
+            >
               <option value="en">ENG</option>
               <option value="zh">中文</option>
             </select>
             <button className="bg-warm-cream hover:bg-warm-cream/90 hover:scale-105 active:scale-95 text-charcoal-ink px-4 xl:px-5 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>
-              Connect Wallet
+              {t('nav.connectWallet')}
             </button>
           </div>
           <button 
@@ -62,20 +69,24 @@ export default function Home() {
               className="lg:hidden overflow-hidden bg-white border-t border-parchment-border shadow-lg absolute top-full left-0 w-full"
             >
               <nav className="flex flex-col px-6 py-6 gap-6">
-                <a className="text-charcoal-ink" style={{ fontWeight: 600, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>Network</a>
-                <a className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>Rewards</a>
-                <a className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>Governance</a>
-                <a className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>Transparency</a>
-                <Link className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} to="/system/flow" onClick={() => setIsMobileMenuOpen(false)}>System Flow</Link>
+                <a className="text-charcoal-ink" style={{ fontWeight: 600, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.network')}</a>
+                <a className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.rewards')}</a>
+                <a className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.governance')}</a>
+                <a className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} href="#" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.transparency')}</a>
+                <Link className="text-charcoal-ink/80" style={{ fontWeight: 460, fontSize: "18px" }} to="/system/flow" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.systemFlow')}</Link>
                 <div className="pt-6 border-t border-parchment-border flex flex-col gap-6">
                   <div className="flex items-center gap-2 text-charcoal-ink/80" style={{ fontWeight: 600, fontSize: "16px" }}>
-                    <select className="bg-transparent outline-none cursor-pointer w-full p-2 rounded-md border border-parchment-border">
+                    <select 
+                      className="bg-transparent outline-none cursor-pointer w-full p-2 rounded-md border border-parchment-border"
+                      value={language}
+                      onChange={(e) => setLanguage(e.target.value as 'en' | 'zh')}
+                    >
                       <option value="en">English (ENG)</option>
                       <option value="zh">Chinese (中文)</option>
                     </select>
                   </div>
                   <button className="bg-warm-cream hover:bg-warm-cream/90 hover:scale-[1.02] active:scale-[0.98] transition-all text-charcoal-ink px-6 py-4 rounded-[8px] w-full" style={{ fontWeight: 700, fontSize: "16px" }}>
-                    Connect Wallet
+                    {t('nav.connectWallet')}
                   </button>
                 </div>
               </nav>
@@ -97,7 +108,7 @@ export default function Home() {
               className="mb-8 max-w-4xl text-white drop-shadow-sm"
               style={{ fontWeight: 540, fontSize: "clamp(40px, 6vw, 64px)", lineHeight: 0.96, letterSpacing: "-1.32px" }}
             >
-              Earn Rewards Through Team Growth & Matrix Placement
+              {t('hero.title')}
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 40 }}
@@ -106,7 +117,7 @@ export default function Home() {
               className="mb-12 max-w-2xl text-white/90 drop-shadow-sm"
               style={{ fontWeight: 460, fontSize: "26px", lineHeight: 1.3 }}
             >
-              Activate with 80 USDT, join the global binary matrix, and unlock up to 10 income levels with transparent on-chain rules.
+              {t('hero.subtitle')}
             </motion.p>
             <motion.div 
               initial={{ opacity: 0, y: 40 }}
@@ -114,9 +125,9 @@ export default function Home() {
               transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
               className="flex flex-wrap justify-center gap-4"
             >
-              <button className="bg-warm-cream text-charcoal-ink px-8 py-4 rounded-lg hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>Connect Wallet</button>
+              <button className="bg-warm-cream text-charcoal-ink px-8 py-4 rounded-lg hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>{t('hero.connectWallet')}</button>
               <button className="text-white px-6 py-4 flex items-center justify-center gap-2 hover:text-lavender-glow hover:-translate-y-1 active:translate-y-0 transition-all duration-200" style={{ fontWeight: 600, fontSize: "16px", lineHeight: 1 }}>
-                <span className="border-b border-white/80 pb-[2px] transition-colors">View Demo</span>
+                <span className="border-b border-white/80 pb-[2px] transition-colors">{t('hero.viewDemo')}</span>
               </button>
             </motion.div>
           </div>
@@ -140,7 +151,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-[8px] bg-lavender-glow/20 flex items-center justify-center text-amethyst-link shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
             </div>
-            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>80 USDT Entry</span>
+            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>{t('stats.entry')}</span>
           </div>
           <div className="hidden md:block w-px h-8 bg-parchment-border"></div>
           
@@ -148,7 +159,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-[8px] bg-lavender-glow/20 flex items-center justify-center text-amethyst-link shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
             </div>
-            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>10 Levels</span>
+            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>{t('stats.levels')}</span>
           </div>
           <div className="hidden md:block w-px h-8 bg-parchment-border"></div>
           
@@ -156,7 +167,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-[8px] bg-lavender-glow/20 flex items-center justify-center text-amethyst-link shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             </div>
-            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>100% On-Chain</span>
+            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>{t('stats.onChain')}</span>
           </div>
           <div className="hidden md:block w-px h-8 bg-parchment-border"></div>
           
@@ -164,14 +175,14 @@ export default function Home() {
             <div className="w-10 h-10 rounded-[8px] bg-lavender-glow/20 flex items-center justify-center text-amethyst-link shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
-            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>Instant Rewards</span>
+            <span className="text-charcoal-ink whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>{t('stats.instant')}</span>
           </div>
         </div>
       </section>
 
       {/* Partners */}
       <section className="py-20 bg-surface-container-lowest flex flex-col items-center border-b border-parchment-border">
-        <p className="text-charcoal-ink/60 uppercase tracking-[2px] mb-12" style={{ fontWeight: 700, fontSize: "12px" }}>Powered by Leading Networks</p>
+        <p className="text-charcoal-ink/60 uppercase tracking-[2px] mb-12" style={{ fontWeight: 700, fontSize: "12px" }}>{t('partners.poweredBy')}</p>
         <div className="flex flex-wrap justify-center items-center gap-16 md:gap-24 opacity-80 mix-blend-multiply">
           <div className="flex items-center gap-3 transition-opacity hover:opacity-100">
             <svg className="w-8 h-8" fill="none" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
@@ -205,18 +216,18 @@ export default function Home() {
       <section className="py-20 md:py-32 bg-surface-container-lowest border-t border-parchment-border">
         <div className="max-w-[1200px] mx-auto px-8 flex flex-col md:flex-row items-center gap-16 md:gap-24">
           <div className="flex-1 order-2 md:order-1">
-            <h2 className="text-charcoal-ink mb-6" style={{ fontWeight: 460, fontSize: "48px", lineHeight: 0.96, letterSpacing: "-1.32px" }}>Seamlessly Manage Your Matrix</h2>
+            <h2 className="text-charcoal-ink mb-6" style={{ fontWeight: 460, fontSize: "48px", lineHeight: 0.96, letterSpacing: "-1.32px" }}>{t('manage.title')}</h2>
             <p className="text-charcoal-ink/80 mb-8" style={{ fontWeight: 460, fontSize: "20px", lineHeight: 1.5 }}>
-              Our intuitive dashboard gives you complete control over your network growth. Monitor your 10 levels of income and track real-time USDT rewards as they land in your wallet.
+              {t('manage.desc')}
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-charcoal-ink" style={{ fontWeight: 540, fontSize: "18px" }}>
                 <svg className="w-5 h-5 text-lavender-glow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Real-time analytics
+                {t('manage.li1')}
               </li>
               <li className="flex items-center gap-3 text-charcoal-ink" style={{ fontWeight: 540, fontSize: "18px" }}>
                 <svg className="w-5 h-5 text-lavender-glow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Smart contract interaction
+                {t('manage.li2')}
               </li>
             </ul>
           </div>
@@ -239,13 +250,13 @@ export default function Home() {
              </div>
           </div>
           <div className="flex-1">
-            <h2 className="text-charcoal-ink mb-6" style={{ fontWeight: 460, fontSize: "48px", lineHeight: 0.96, letterSpacing: "-1.32px" }}>Built for Collaborative Growth</h2>
+            <h2 className="text-charcoal-ink mb-6" style={{ fontWeight: 460, fontSize: "48px", lineHeight: 0.96, letterSpacing: "-1.32px" }}>{t('collab.title')}</h2>
             <p className="text-charcoal-ink/80 mb-8" style={{ fontWeight: 460, fontSize: "20px", lineHeight: 1.5 }}>
-              Success in Block Matrix is a team effort. Our binary structure is designed to reward collective growth, ensuring that as your community expands, everyone benefits from the shared momentum.
+              {t('collab.desc')}
             </p>
             <div className="p-8 bg-white rounded-[16px] border border-parchment-border shadow-sm">
-              <p className="text-charcoal-ink/90 mb-5 text-[20px]" style={{ fontWeight: 460, lineHeight: 1.5 }}>"The automated spillover and referral system makes it easy to grow together. It's the most transparent community I've been part of."</p>
-              <p className="text-charcoal-ink" style={{ fontWeight: 700, fontSize: "14px", letterSpacing: "1px" }}>COMMUNITY LEAD</p>
+              <p className="text-charcoal-ink/90 mb-5 text-[20px]" style={{ fontWeight: 460, lineHeight: 1.5 }}>{t('collab.quote')}</p>
+              <p className="text-charcoal-ink" style={{ fontWeight: 700, fontSize: "14px", letterSpacing: "1px" }}>{t('collab.author')}</p>
             </div>
           </div>
         </div>
@@ -257,14 +268,14 @@ export default function Home() {
       <BackgroundGradientAnimation>
         <section className="py-24 md:py-32 relative text-center md:text-left z-10">
           <div className="max-w-[800px] mx-auto px-8 flex flex-col items-center">
-            <h2 className="text-white mb-6 drop-shadow-sm text-center" style={{ fontWeight: 460, fontSize: "48px", lineHeight: 0.96, letterSpacing: "-1.32px" }}>Join the Global Matrix from Anywhere</h2>
+            <h2 className="text-white mb-6 drop-shadow-sm text-center" style={{ fontWeight: 460, fontSize: "48px", lineHeight: 0.96, letterSpacing: "-1.32px" }}>{t('cta.title')}</h2>
             <p className="text-white/90 mb-10 max-w-lg mx-auto drop-shadow-sm text-center" style={{ fontWeight: 460, fontSize: "20px", lineHeight: 1.5 }}>
-              Access your dashboard, track rewards, and manage your network directly from your mobile device. Secure, fast, and on-chain.
+              {t('cta.subtitle')}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <button className="bg-warm-cream text-charcoal-ink px-8 py-4 rounded-[8px] hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>Get Started Now</button>
+              <button className="bg-warm-cream text-charcoal-ink px-8 py-4 rounded-[8px] hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>{t('cta.getStarted')}</button>
               <button className="text-white px-6 py-4 flex items-center justify-center gap-2 hover:text-lavender-glow hover:-translate-y-1 active:translate-y-0 transition-all duration-200" style={{ fontWeight: 600, fontSize: "16px", lineHeight: 1 }}>
-                <span className="border-b border-white/80 pb-[2px] transition-colors">Learn More</span>
+                <span className="border-b border-white/80 pb-[2px] transition-colors">{t('cta.learnMore')}</span>
               </button>
             </div>
           </div>
@@ -284,21 +295,21 @@ export default function Home() {
                 BLOCK MATRIX
               </div>
             </div>
-            <p className="text-charcoal-ink/50 mb-2">© 2026 Block Matrix. Built 100% On-Chain.</p>
-            <p className="text-charcoal-ink/50">Active Rule Version: v2026.04.19</p>
+            <p className="text-charcoal-ink/50 mb-2">{t('footer.builtOnChain')}</p>
+            <p className="text-charcoal-ink/50">{t('footer.activeRule')}</p>
           </div>
           <div className="flex flex-col gap-4 items-center sm:items-start">
-            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">Terms</a>
-            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">Privacy</a>
-            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">Security</a>
+            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">{t('footer.terms')}</a>
+            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">{t('footer.privacy')}</a>
+            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">{t('footer.security')}</a>
           </div>
           <div className="flex flex-col gap-4 items-center sm:items-start">
-            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">Status</a>
-            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">Twitter</a>
+            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">{t('footer.status')}</a>
+            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">{t('footer.twitter')}</a>
           </div>
           <div className="flex flex-col gap-4 items-center sm:items-start">
-            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">Discord</a>
-            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">Telegram</a>
+            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">{t('footer.discord')}</a>
+            <a className="text-charcoal-ink/60 hover:text-amethyst-link transition-colors font-medium" href="#">{t('footer.telegram')}</a>
           </div>
         </div>
       </footer>

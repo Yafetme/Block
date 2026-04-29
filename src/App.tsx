@@ -6,15 +6,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import SystemFlow from './pages/SystemFlow';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/system/flow" element={<SystemFlow />} />
-      </Routes>
-    </Router>
+    <LanguageProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/system/flow" element={<SystemFlow />} />
+        </Routes>
+      </Router>
+    </LanguageProvider>
   );
 }
 
