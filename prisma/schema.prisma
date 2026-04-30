@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id              String            @id @default(uuid())
+  walletAddress   String            @unique
+  role            String            @default("USER") // USER, SUPER_ADMIN
+  status          String            @default("ACTIVE") // ACTIVE, DISABLED
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  seats           Seat[]
+  walletLedgers   WalletLedger[]
+  rewardSettlements RewardSettlement[]
+  adminLogs       AdminOperationLog[]
+}
+
+model Seat {
+  id              String            @id @default(uuid())
+  ownerUserId     String
+  owner           User              @relation(fields: [ownerUserId], references: [id])
+  sponsorSeatId   String?
+  sponsor         Seat?             @relation("Sponsorship", fields: [sponsorSeatId], references: [id])
+  directReferrals Seat[]            @relation("Sponsorship")
+  currentLevel    String            @default("V0") // V0 until V1 achieved
+  status          String            @default("ACTIVE")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  orders          Order[]
+  rewardCycles    RewardCycle[]
+  rewards         RewardSettlement[]
+  matrixCycles    MatrixCycle[]
+  matrixNodes     MatrixNode[]
+  commissions     CommissionRecord[] @relation("Receiver")
+  sourceCommissions CommissionRecord[] @relation("Source")
+  walletLedgers   WalletLedger[]
+}
+
+model Order {
+  id              String            @id @default(uuid())
+  seatId          String
+  seat            Seat              @relation(fields: [seatId], references: [id])
+  amount          Float
+  currency        String            @default("USDT")
+  orderType       String            // initial_purchase, reinvestment, admin_created
+  status          String            @default("PAID") // PENDING, PAID, REFUNDED
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  commissions     CommissionRecord[]
+}
+
+model LevelConfig {
+  id                      String   @id @default(uuid())
+  version                 Int      @default(1)
+  levelCode               String
+  levelRank               Int
+  levelName               String
+  entryAmount             Float
+  rewardAmount            Float
+  rewardSettlementDays    Int
+  minOrderCount           Int      @default(0)
+  minOrderAmount          Float    @default(0)
+  directV1Required        Int      @default(0)
+  directV4Required        Int      @default(0)
+  directV5Required        Int      @default(0)
+  directV8Required        Int      @default(0)
+  directV9Required        Int      @default(0)
+  teamStructureJson       String   @default("{}")
+  performanceRewardRate   Float    @default(0)
+  matrixEnabled           Boolean  @default(false)
+  matrixWidth             Int      @default(2)
+  matrixDepth             Int      @default(2)
+  isActive                Boolean  @default(true)
+  effectiveFrom           DateTime @default(now())
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+}
+
+model RewardCycle {
+  id                      String   @id @default(uuid())
+  seatId                  String
+  seat                    Seat     @relation(fields: [seatId], references: [id])
+  level                   String
+  cycleNumber             Int      @default(1)
+  requiredConditionSnapshot String
+  usedMemberSeatIds       String   // JSON string of arrays
+  usedOrderIds            String   // JSON string of arrays
+  matrixCycleId           String?
+  status                  String   @default("COMPLETED")
+  createdAt               DateTime @default(now())
+}
+
+model RewardSettlement {
+  id                   String   @id @default(uuid())
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id])
+  seatId               String
+  seat                 Seat     @relation(fields: [seatId], references: [id])
+  levelCode            String
+  rewardAmount         Float
+  triggerOrderId       String?
+  triggerTime          DateTime @default(now())
+  defaultSettlementTime DateTime
+  actualSettlementTime DateTime?
+  settlementDays       Int
+  settlementStatus     String   @default("pending") // pending, reviewing, scheduled, settled, early_settled, delayed, cancelled, reversed, failed
+  isManualAdjusted     Boolean  @default(false)
+  adjustmentReason     String?
+  adjustedBy           String?
+  settledBy            String?
+  configVersion        Int      @default(1)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  walletLedgerId       String?
+}
+
+model CommissionRecord {
+  id               String   @id @default(uuid())
+  receiverSeatId   String
+  receiverSeat     Seat     @relation("Receiver", fields: [receiverSeatId], references: [id])
+  sourceSeatId     String
+  sourceSeat       Seat     @relation("Source", fields: [sourceSeatId], references: [id])
+  sourceOrderId    String
+  sourceOrder      Order    @relation(fields: [sourceOrderId], references: [id])
+  receiverLevel    String
+  sourceLevel      String
+  receiverRate     Float
+  sourceRate       Float
+  payableRate      Float
+  commissionAmount Float
+  status           String   @default("PENDING")
+  createdAt        DateTime @default(now())
+  paidAt           DateTime?
+}
+
+model MatrixCycle {
+  id                 String   @id @default(uuid())
+  seatId             String
+  seat               Seat     @relation(fields: [seatId], references: [id])
+  level              String
+  matrixWidth        Int
+  matrixDepth        Int
+  requiredPositions  Int
+  filledPositions    Int      @default(0)
+  status             String   @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED
+  createdAt          DateTime @default(now())
+  completedAt        DateTime?
+  nodes              MatrixNode[]
+}
+
+model MatrixNode {
+  id               String     @id @default(uuid())
+  cycleId          String
+  cycle            MatrixCycle @relation(fields: [cycleId], references: [id])
+  seatId           String
+  seat             Seat        @relation(fields: [seatId], references: [id])
+  positionIndex    Int
+  createdAt        DateTime   @default(now())
+}
+
+model WalletLedger {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  seatId           String?
+  seat             Seat?    @relation(fields: [seatId], references: [id])
+  amount           Float
+  currency         String   @default("USDT")
+  direction        String   // CREDIT, DEBIT
+  ledgerType       String   // membership_payment, promotion_reward, matrix_reward, performance_reward, manual_bonus, manual_deduction, refund, reversal, freeze, unfreeze
+  relatedOrderId   String?
+  relatedRewardId  String?
+  relatedLevel     String?
+  status           String   @default("COMPLETED")
+  remark           String?
+  createdAt        DateTime @default(now())
+}
+
+model AdminOperationLog {
+  id               String   @id @default(uuid())
+  adminUserId      String
+  adminUser        User     @relation(fields: [adminUserId], references: [id])
+  operationType    String
+  targetEntity     String
+  targetId         String
+  oldData          String?
+  newData          String?
+  createdAt        DateTime @default(now())
+}

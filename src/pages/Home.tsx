@@ -7,6 +7,7 @@ import { AccordionComponent } from "../components/ui/faq-accordion";
 import { PlatformFeatures } from "../components/ui/matrix-features";
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import { ConnectKitButton } from 'connectkit';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -21,10 +22,7 @@ export default function Home() {
             className="flex items-center cursor-pointer shrink-0 gap-3 mr-4 lg:mr-8 transition-transform hover:scale-105 active:scale-95"
             onClick={() => window.location.href = '/'}
           >
-            <div 
-              className="bg-[#4f28ad] rounded-[4px] flex-shrink-0 w-8 h-8"
-              style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 30%, 75% 50%, 100% 70%, 100% 100%, 0% 100%)" }}
-            />
+            <img src="/logo.png" alt="Block Matrix Logo" className="w-8 h-8 object-contain" />
             <div className="text-charcoal-ink uppercase whitespace-nowrap" style={{ fontWeight: 540, fontSize: "24px", lineHeight: 0.96, letterSpacing: "-0.5px" }}>
               BLOCK MATRIX
             </div>
@@ -46,9 +44,16 @@ export default function Home() {
               <option value="en">ENG</option>
               <option value="zh">中文</option>
             </select>
-            <button className="bg-warm-cream hover:bg-warm-cream/90 hover:scale-105 active:scale-95 text-charcoal-ink px-4 xl:px-5 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>
-              {t('nav.connectWallet')}
-            </button>
+            <ConnectKitButton.Custom>
+              {({ isConnected, show, truncatedAddress, ensName }) => {
+                return (
+                  <button onClick={show} className="bg-warm-cream flex items-center gap-2 hover:bg-warm-cream/90 hover:scale-105 active:scale-95 text-charcoal-ink px-4 xl:px-5 py-2.5 rounded-lg transition-all duration-200 whitespace-nowrap" style={{ fontWeight: 600, fontSize: "16px" }}>
+                    <img src="/logo.png" alt="Wallet" className="w-5 h-5 object-contain" />
+                    {isConnected ? ensName ?? truncatedAddress : t('nav.connectWallet')}
+                  </button>
+                );
+              }}
+            </ConnectKitButton.Custom>
           </div>
           <button 
             className="lg:hidden p-2 text-charcoal-ink hover:bg-black/5 hover:scale-105 active:scale-95 transition-all rounded-md"
@@ -85,7 +90,8 @@ export default function Home() {
                       <option value="zh">Chinese (中文)</option>
                     </select>
                   </div>
-                  <button className="bg-warm-cream hover:bg-warm-cream/90 hover:scale-[1.02] active:scale-[0.98] transition-all text-charcoal-ink px-6 py-4 rounded-[8px] w-full" style={{ fontWeight: 700, fontSize: "16px" }}>
+                  <button className="bg-warm-cream flex items-center justify-center gap-2 hover:bg-warm-cream/90 hover:scale-[1.02] active:scale-[0.98] transition-all text-charcoal-ink px-6 py-4 rounded-[8px] w-full" style={{ fontWeight: 700, fontSize: "16px" }}>
+                    <img src="/logo.png" alt="Wallet" className="w-6 h-6 object-contain" />
                     {t('nav.connectWallet')}
                   </button>
                 </div>
@@ -123,9 +129,18 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-4"
+              className="flex flex-wrap justify-center gap-4 items-center"
             >
-              <button className="bg-warm-cream text-charcoal-ink px-8 py-4 rounded-lg hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>{t('hero.connectWallet')}</button>
+              <ConnectKitButton.Custom>
+                {({ isConnected, show, truncatedAddress, ensName }) => {
+                  return (
+                    <button onClick={show} className="bg-warm-cream flex items-center gap-3 text-charcoal-ink px-8 py-4 rounded-lg hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>
+                      <img src="/logo.png" alt="Wallet" className="w-6 h-6 object-contain" />
+                      {isConnected ? ensName ?? truncatedAddress : t('hero.connectWallet')}
+                    </button>
+                  );
+                }}
+              </ConnectKitButton.Custom>
               <button className="text-white px-6 py-4 flex items-center justify-center gap-2 hover:text-lavender-glow hover:-translate-y-1 active:translate-y-0 transition-all duration-200" style={{ fontWeight: 600, fontSize: "16px", lineHeight: 1 }}>
                 <span className="border-b border-white/80 pb-[2px] transition-colors">{t('hero.viewDemo')}</span>
               </button>
@@ -272,8 +287,11 @@ export default function Home() {
             <p className="text-white/90 mb-10 max-w-lg mx-auto drop-shadow-sm text-center" style={{ fontWeight: 460, fontSize: "20px", lineHeight: 1.5 }}>
               {t('cta.subtitle')}
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <button className="bg-warm-cream text-charcoal-ink px-8 py-4 rounded-[8px] hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>{t('cta.getStarted')}</button>
+            <div className="flex flex-wrap justify-center gap-4 items-center">
+              <button className="bg-warm-cream flex items-center gap-3 text-charcoal-ink px-8 py-4 rounded-[8px] hover:bg-warm-cream/90 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-200" style={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>
+                <img src="/logo.png" alt="Wallet" className="w-6 h-6 object-contain" />
+                {t('cta.getStarted')}
+              </button>
               <button className="text-white px-6 py-4 flex items-center justify-center gap-2 hover:text-lavender-glow hover:-translate-y-1 active:translate-y-0 transition-all duration-200" style={{ fontWeight: 600, fontSize: "16px", lineHeight: 1 }}>
                 <span className="border-b border-white/80 pb-[2px] transition-colors">{t('cta.learnMore')}</span>
               </button>
@@ -287,10 +305,7 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 text-center sm:text-left">
           <div className="col-span-1 sm:col-span-2 md:col-span-1 flex flex-col items-center sm:items-start">
             <div className="mb-6 flex items-center cursor-pointer sm:justify-start justify-center gap-3 transition-transform hover:scale-105 active:scale-95" onClick={() => window.location.href = '/'}>
-              <div 
-                className="bg-[#4f28ad] rounded-[4px] flex-shrink-0 w-8 h-8"
-                style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 30%, 75% 50%, 100% 70%, 100% 100%, 0% 100%)" }}
-              />
+              <img src="/logo.png" alt="Block Matrix Logo" className="w-8 h-8 object-contain" />
               <div className="text-charcoal-ink uppercase whitespace-nowrap" style={{ fontWeight: 540, fontSize: "24px", lineHeight: 0.96, letterSpacing: "-0.5px" }}>
                 BLOCK MATRIX
               </div>
